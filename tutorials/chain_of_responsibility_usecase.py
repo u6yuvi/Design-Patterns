@@ -34,23 +34,23 @@ class AbstractHandler(Handler):
         return handler
 
     @abstractmethod
-    def handle(self, request: Any, result =  None) -> str:
+    def handle(self, request: Any, result=None) -> str:
         if self._next_handler:
-            return self._next_handler.handle(request,result)
+            return self._next_handler.handle(request, result)
 
         return result
+
 
 class KeyRemoval(AbstractHandler):
     def handle(self, request: Any, result) -> str:
         if result is None:
             result = dict()
-            print(f'Creating new dict')
+            print(f"Creating new dict")
         for key, items in request.items():
-            if key == 'key1':
-                result['key1'] = f'Keyword found at key {key}'
-        
-        return super().handle(request,result)
-                
+            if key == "key1":
+                result["key1"] = f"Keyword found at key {key}"
+
+        return super().handle(request, result)
 
 
 class ValRemoval(AbstractHandler):
@@ -59,22 +59,19 @@ class ValRemoval(AbstractHandler):
             result = dict()
         for key, items in request.items():
             for i in items:
-                if i==4:
-                    result[key] = f'Item found for Key {key}'
-        
-        return super().handle(request,result)
+                if i == 4:
+                    result[key] = f"Item found for Key {key}"
 
-
+        return super().handle(request, result)
 
 
 def call_fnc(request):
-    result = keyh.handle(request,None)
+    result = keyh.handle(request, None)
     print(result)
 
 
-
 if __name__ == "__main__":
-    res_dict = {'key1':[1,2,3],'key2':[4,5,6],'key3':[7,8,9]}
+    res_dict = {"key1": [1, 2, 3], "key2": [4, 5, 6], "key3": [7, 8, 9]}
 
     keyh = KeyRemoval()
     valh = ValRemoval()
@@ -82,5 +79,3 @@ if __name__ == "__main__":
     keyh.set_next(valh)
 
     call_fnc(res_dict)
-
-

@@ -27,45 +27,40 @@ from concepts.repository.memrepo import MemRepo
 #             "{}: {}".format(exc.__class__.__name__, "{}".format(exc)))
 
 
-#strategy1
-def stgy1_extractcandidate(keyword: str , memrepo: MemRepo):
-    print(f'Extracting Candidate for keyword {keyword} ')
+# strategy1
+def stgy1_extractcandidate(keyword: str, memrepo: MemRepo):
+    print(f"Extracting Candidate for keyword {keyword} ")
     return memrepo.list().getallines()
 
 
-
-
-
 class GETKEYWORDTHANVALUE:
-    def __init__(self,memrepo, keyword_name: str, keyword_handler_obj) -> None:
+    def __init__(self, memrepo, keyword_name: str, keyword_handler_obj) -> None:
         self.memrepo = memrepo
         self.keyword_name = keyword_name
         self.keyword_handler_obj = keyword_handler_obj
 
-
     def getkeyword(self,):
-        #key_handler_obj = self.KeywordHandler(self.keyword_fn())
-        matched_keys = self.keyword_handler_obj.return_keyword(self.keyword_name)
+        # key_handler_obj = self.KeywordHandler(self.keyword_fn())
+        matched_keys = self.keyword_handler_obj.return_keyword(
+            self.keyword_name)
 
         return matched_keys
 
     # def getallkeywords(self,):
-        
+
     #     return self.KeywordInterface.getallkeyword()
-    
+
     def getcandidates(self, extractcandidate_fn):
 
         self.found_keywords = self.getkeyword()
 
         if "No key" in self.found_keywords:
-            print(f'No candidates found')
-            return ['No result']
+            print(f"No candidates found")
+            return ["No result"]
 
-        found_candidates = extractcandidate_fn(self.found_keywords, self.memrepo)
-        
-        print(f'Candidates found: {found_candidates}')
-        
+        found_candidates = extractcandidate_fn(
+            self.found_keywords, self.memrepo)
+
+        print(f"Candidates found: {found_candidates}")
+
         return found_candidates
-
-
-
