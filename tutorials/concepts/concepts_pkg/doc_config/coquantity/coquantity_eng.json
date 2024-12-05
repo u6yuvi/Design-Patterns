@@ -1,0 +1,435 @@
+{
+    "fields_to_extract" :{
+        "load_port":
+        {
+            "keyword_search" : ["installation","loading at","load port","load","loading place","loadport",
+                "location","origin","port","port of loading","port of shipment","ship from",
+                "shipment","shipment load point","shipped from","station"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+        },
+        "terminal":
+        {
+            "keyword_search" : ["LOADING PORT:","Part of Loading","Port Of:","Port/Location:","TERMINAL / PORT:","Installation",
+            "PORT","Portoi","Port/Terminal"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "document_issuer": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+            "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES_SPV" : {"spv_tag":["ORG"],
+                "tag_threshold":0}
+                },
+                "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_KEYALIASES_SPV"]
+                }
+                },
+            "cand_rejector_stgy": {}
+
+        },
+         "quantity": 
+        {
+            "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["CARDINAL"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+         "unit_of_measurement": 
+        {
+            "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["UNIT"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+        "quantity_type": 
+        {
+            "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["QUANTITY_TYPE"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+        "commodity":
+        {
+            "keyword_search" : ["product description","description of goods", "description of good","cargo / move",
+                "description of goods / commodity","descriptions of items","goods description",
+                "item description","lots expiry commodity","name of the cmmodity","product/location:",
+                                "commodity", "description", "product","grade","merchandise","quantities said to be "],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["COMMODITY"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : [],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG","COMMODITY"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "vessel":
+        {
+            "keyword_search" : ["vessel/voyage number","steam/motorship/tanker", "name of vessel",
+                "vessel name", "ocean vessel", "board the vessel", "vessel", "vesset", "vesse!",
+                "mode of transport", "means of transport", "carrier", "motorship",
+                "steamship", "tanker", "board","onboard","m/s","tank ship","m/t","exporting carrier","s/s"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["VESSEL"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "K2V_REF" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "coqn_date":
+        {
+            "keyword_search" : ["certificate of quantity dated","date / place of survey","report date","date","c/q dated","date of job","date of report"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": [],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["DATE"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_DATE_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : [],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["DATE"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["ORG","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "delivery_date":
+        {
+            "keyword_search" : ["certificate of quantity dated","date / place of survey","report date","date","c/q dated","date of job","date of report"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": [],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["DATE"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_DATE_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : [],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["DATE"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["ORG","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        }
+    }
+} 

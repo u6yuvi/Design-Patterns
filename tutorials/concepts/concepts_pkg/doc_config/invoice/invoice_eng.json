@@ -1,0 +1,1218 @@
+{
+    "fields_to_extract" :{
+        "load_port":
+        {
+            "keyword_search" : ["installation","loading at","load port","load","loading place","loadport",
+                "location","origin","port","port of loading","port of shipment","ship from",
+                "shipment","shipment load point","shipped from","station"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+        },
+        "discharge_port":
+        {
+            "keyword_search" : ["delivered at","delivery","destination","discharging at",
+                "discharge port","discharge location:","execution location","place of delivery",
+                "port of discharge","port of delivery","ship to","ship via","ship-to address"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "location":
+        {
+            "keyword_search" : ["installation","loading at","load port","load","loading place","loadport",
+                "location","origin","port","port of loading","port of shipment","ship from",
+                "shipment","shipment load point","shipped from","station"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["LOC","ORG"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+        },
+        "payment_terms":
+        {
+            "keyword_search" : ["payment terms", "credit term","pay this amount","payment due date:",
+            "payment instructions terms:","terms of payment","terms", "payment conditions", "calendar days"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_CONTOUR" : {}
+            },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :["CAND_GEN_CONT"]
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "bank_name":
+        {
+            "keyword_search" : ["bank name","beneficiary bank","beneficiary’s bank:",
+                "beneficiary name","beneficiary bank name:","for account of","intermediary bank:",
+                "payment to be sent to:","wire transfer funds to:","please remit to:",
+                "please wire payment to","please transfer all payment to:","please use the following bank account for payment :",
+                "transfer funds to:","wire transfer funds to:"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : true,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line": true,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                },
+                "USING_KEYALIASES" : {}
+
+            },
+            "cand_selector_stgy": {
+                "INV_BANK" : {
+                    "cand_generator_stgy" :["CAND_GEN_PRS","CAND_GEN_USING_KEYALIASES"],
+                    "pass_stgy":"true",
+                    "spv_tag" : "BANK",
+                    "stitch_line" : true
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                }
+            } 
+        },
+        "correspondent_bank_name":
+        {
+            "keyword_search" : ["correspondent bank",
+                "intermediary bank:","correspondent bank name:"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : true,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line": true,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                }
+            },
+            "cand_selector_stgy": {
+                "PRS_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_PRS"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                }
+            }
+        },
+        "bank_account_no":
+        {
+            "keyword_search" : ["a/c no","account","account no","account number",
+                "acct#","aic no:","account #","acct number:","acct no:","acct","beneficiary account no",
+                "bank a/c no:","beneficiary account number","beneficiary account:","usd a/c no.:",
+                "usd account no:","usd bank account:","usd current account no:","account nr.",
+                "rm a/c no"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : true,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line": false,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                },
+                "USING_KEYALIASES" :{}         
+            },
+            "cand_selector_stgy": {
+                "INV_BANK" : {
+                    "cand_generator_stgy" :["CAND_GEN_PRS","CAND_GEN_USING_KEYALIASES"],
+                    "pass_stgy":"true",
+                    "spv_tag" : "ACC_NUM"
+                }
+            },
+            "cand_rejector_stgy": {}
+                
+        },
+        "iban_number":
+        {
+            "keyword_search" : ["iban","iban :"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+               "cand_generator_stgy" : {
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["IBAN"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {}  
+        },
+        "bic_swift_code":
+        {
+        "keyword_search" : ["swift code",
+        "swift address",
+        "swift (bic)",
+        "swift/bic",
+        "bic",
+        "bic/swift",
+        "swift no","swift","S.W.I.F.T."],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : true,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : false,
+                            "next_line": true,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                },
+                "USING_KEYALIASES":{}
+            },
+            "cand_selector_stgy": {
+              
+                "Heuristic":{ "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"],"Regex_function":"swift_code"}
+
+            },
+            "cand_rejector_stgy": {}
+        },
+        "correspondent_bank_bic_swift_code":
+        {
+            "keyword_search" : ["correspondent swift code","intermediary swift code","swift code of intermediary bank"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : true,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line": true,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                }
+            },
+            "cand_selector_stgy": {
+                "Heuristic":{ "cand_generator_stgy" :["CAND_GEN_PRS"],"Regex_function":"swift_code"}
+
+                },
+            "cand_rejector_stgy": {}
+        },
+        "sort_code":
+        {
+            "keyword_search" : ["bank code :","sort code:","sort"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : false,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : false,
+                            "next_line": false,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_BANK" : {
+                    "cand_generator_stgy" :["CAND_GEN_PRS"],
+                    "pass_stgy":"true",
+                    "spv_tag" : "SORT"
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "aba_code":
+        {
+            "keyword_search" : ["aba #:","aba","aba number","aba routing number:","aba/ach no:",
+                "bank aba routing #:","routing aba no:"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_PRS" : {
+                    "layout_tags":{
+                        "Text" :{
+                            "single_line" : true,
+                            "multi_line" : true,
+                            "next_line" : true,
+                            "num_lines" : 1,
+                            "iou_threshold": 0.10
+                            },
+                        "Title" : {
+                            "single_line" : true,
+                            "multi_line" : false,
+                            "next_line": true,
+                            "iou_threshold" : 0.10
+                        }
+                    }
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_BANK" : {
+                    "cand_generator_stgy" :["CAND_GEN_PRS"],
+                    "pass_stgy":"true",
+                    "spv_tag" : "ABA"
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["Anchor"],
+                        "threshold" : 100
+                    } 
+                }
+            }
+        },
+        "invoice_number":
+        {
+            "keyword_search" : ["invoice no",
+                "invoice no.",
+                "invoice nr",
+                "invoice ref",
+                "commercial invoice no",
+                "differential debit note no",
+                "differential debit note #",
+                "debit note no",
+                "final invoice no",
+                "commercial invoice #",
+                "provisional invoice",
+                "provisional invoice #",
+                "debit note #",
+                "final invoice #",
+                "invoice n°",
+                "invoice number",
+                "final invoice",
+                "invoice #",
+                "document number",
+                "tax invoice no",
+                "tax invoice number",
+                "n° de factura",
+                "invoice nb:",
+                "freight bill no",
+                "invoice id",
+                "debit memo no",
+                "tax invoice #:",
+                "invoice #:",
+                "invoice#:",
+                "tax invoice#:",
+                "factuurnummer"
+            ],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+
+    
+            },
+            "cand_selector_stgy": {
+                "K2V" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O","Anchor"],
+                        "threshold" : 0
+                    },
+                    "reject":{
+                        "tags": [],
+                        "threshold" : 70
+                    }
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["ORG","CARDINAL","O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["COMMODITY","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE"],
+                        "threshold" : 70
+                    }
+
+            }
+        }
+    },
+        "tax_registration_id":
+        {
+            "keyword_search" : ["v.a.t. number","vat#","vat no:","registration no.",
+                "company vat reg.","vat reg nr :","gst reg no.","vat reg:","vat number:","vat reg no.",
+                "tax id:","sales tax reg:","btw-nummer","sgs vat reg. number","our ref.","our vat no:",
+                "client ref:","our tax id"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES":{}
+            },
+            "cand_selector_stgy": {
+                "TAX_REG_ID" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "incoterm":
+        {
+            "keyword_search" : [],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["INCOTERM"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "bank_currency":
+        {
+            "keyword_search" : [],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["CURRENCY"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "currency_of_amount":
+        {
+            "keyword_search" : [
+                "total factura",
+                "total to pay",
+                "amount to pay",
+                "amount in total",
+                "amount remaining",
+                "total amount due ",
+                "net settlement amount",
+                "total due",
+                "total payable",
+                "net settlement amount",
+                "total us$",
+                "grand-total",
+                "grand total",
+                "invoice total",
+                "net amount in","net amount in eur","total amount incl gst",
+                "invoice value",
+                "totals:",
+                "t o t a l",
+                "amount due by you",
+                "Total Due:",
+                "bulk fuel invoice total",
+                "total in usd (including gst)","tax amount total payable (usd)",
+                "net a payer en usd",
+                "del total",
+                "fob total","invsiee tstal r","invoice total :","net total amount",
+                "amount (provisional)",
+                "totaal",
+                "amount due",
+                "total amount"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "Heuristic": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+
+            },
+            "cand_selector_stgy": {
+                "INV_AMT_PAY" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"],"filter_function":"currency_filter"
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "amount_to_pay":
+        {
+            "keyword_search" : [
+                "total factura",
+                "total to pay",
+                "amount to pay",
+                "amount in total",
+                "amount remaining",
+                "total amount due ",
+                "net settlement amount",
+                "total due",
+                "total payable",
+                "net settlement amount",
+                "total us$",
+                "grand-total",
+                "grand total",
+                "invoice total",
+                "net amount in","net amount in eur","total amount incl gst",
+                "invoice value",
+                "totals:",
+                "t o t a l",
+                "amount due by you",
+                "Total Due:",
+                "bulk fuel invoice total",
+                "total in usd (including gst)","tax amount total payable (usd)",
+                "net a payer en usd",
+                "del total",
+                "fob total","invsiee tstal r","invoice total :","net total amount",
+                "amount (provisional)",
+                "totaal",
+                "amount due",
+                "total amount",
+
+                "Consulting fee due to sino resource hongkong ltd",
+                "CONSULTING FEE DUE TO SINO RESOURCE HONGKONG LTD:",
+                "Total (Rounded off)",
+                "amount",
+                "TOTAL VALUE",
+                "INVOICE TOTAL",
+                "BALANCE AMOUNT",
+                "TOTAL USD",
+                "total due to/(from): phillips 66 international trading pte ltd",
+                "total amount due",
+                "total ht",
+                "sum total amount due to us",
+                "total",
+                "total amount due:",
+                "net total",
+                "total amount:",
+                "invoice value due to huaneng group fuel",
+                "balance amount due to gunvor singapore pte ltd",
+                "total due to macquarie bank limited london branch",
+                "total amount due  this invoice",
+                "debit note amount",
+                "total balance",
+                "g.  total",
+                "invoice amount",
+                "total amount due to vitol bahrain e.c",
+                "balance due",
+                "final amount",
+                "total amount invoiced to you (us dollars)",
+                "invoice value",
+                "total provisional amount",
+                "to pay",
+                "net usd total",
+                "Total Due To Morgan Stanley & Co. International plc in",
+                "debit note amount",
+                "total balance",
+                "invoice amount",
+                "TOTAL AMOUNT DUE TO HAFNIA POOLS PTE LTD :"
+
+                                
+            ],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {}
+
+                
+            },
+            "cand_selector_stgy": {
+                "INV_AMT_PAY" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_USING_KEYALIASES"],"filter_function":"amount_filter"
+                }
+            },
+            "cand_rejector_stgy": {}
+        },
+        "document_issuer": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+            "K2K": {}
+            },
+            "cand_generator_stgy" : {
+            "USING_KEYALIASES_SPV" : {"spv_tag":["ORG"],
+            "tag_threshold":0.75}
+            },
+            "cand_selector_stgy": {
+            "passthrough" : {
+                "cand_generator_stgy" :["CAND_GEN_KEYALIASES_SPV"]
+            }
+            },
+            "cand_rejector_stgy": {}
+
+        },
+        "mercuria_entity":{
+            "keyword_search" : ["bill to:","bill-to","billing address","for account of","bill to party","buyer","cliente","invoice for:",
+                "name & address for invoicing","sold to","master, owners of","billing address","sold to:",
+                "billing to:","name & address for invoicing","invoice to","client name:"],
+            "number_of_lines_to_extract" : 1,
+            "no_of_values_to_return" : 1,
+            "selection_type": "topology",
+            "values_file": ["organization.json"],
+            "diagonal_flag": false,
+            "extraction_stgy" : {
+             "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+             },
+ 
+             "key_extraction_stgy" : {
+             "Heuristic": {}
+             },
+             "cand_generator_stgy" : {
+             "USING_SPV" : {"single_line_extraction":
+                {"spv_tag" : ["ORG"],
+                "tag_threshold":0.75}
+                }
+            },
+             "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+             },
+             "cand_rejector_stgy": {}
+ 
+         },
+        "document_issuer_address": 
+        {
+           "keyword_search" : [],
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+            "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_SPV" : {"multi_line_extraction":
+                    {"spv_tag" : ["ADDRESS"]}
+                }
+            },
+            "cand_selector_stgy": {
+            "passthrough" : {
+                "cand_generator_stgy" :["CAND_GEN_SPV"]
+            }
+            },
+            "cand_rejector_stgy": {}
+
+        },
+        "commodity":
+        {
+            "keyword_search" : ["material","cargo","product description","description of goods", "description of good","cargo / move",
+                "description of goods / commodity","descriptions of items","goods description",
+                "item description","lots expiry commodity","name of the cmmodity","product/location:",
+                                "commodity", "description", "product","grade","merchandise","quantities said to be "],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": ["country.json", "ports.json"],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["COMMODITY"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "K2V_REF" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["COMMODITY"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["DATE","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "invoice_date":
+        {
+            "keyword_search" : ["invoice date",
+                "invoice date ",
+                "invoice tax date",
+                "tax date",
+                "date",
+                "date of invoice",
+                "tax invoice date"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": [],
+            "use_k2k" : true, 
+            "use_k2k_only":false,
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["DATE"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_DATE_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy":{}
+        },
+        "service_provided_date" :
+        {
+            "keyword_search" : ["job date", "Actual Execution EndDate", "Operations date",
+                "Option Fee January", "Comp Date", "Execution Dates",
+                "Movement Date", "Job Date", "Job Finish", "Launch",
+                "job completion date", "date of", "services", "service date"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": [],
+            "use_k2k" : true, 
+            "use_k2k_only":false,
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["DATE"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_DATE_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy":{}
+        },
+        "due_date" :
+        {
+            "keyword_search" : ["due date",
+                "due date ",
+                "payment",
+                "due",
+                "due on",
+                "payment due date",
+                "job date",
+                "total amount due on",
+                "payment due",
+                "maturity date"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": [],
+            "use_k2k" : true, 
+            "use_k2k_only":false,
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["DATE"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_DATE_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy":{}
+        },
+        "quantity": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "reject_list" :{},
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["CARDINAL"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+         "unit_of_measurement": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "reject_list" :{},
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["UNIT"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+        "quantity_type": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "reject_list" :{},
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["QUANTITY_TYPE"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+        "delivery_date":
+        {
+            "keyword_search":["delivery date",
+                "date / placce of survey",
+                "discharge date",
+                "request delivery date",
+                "shipping date and time ",
+                "date",
+                "ship date ",
+                "job date",
+                "execution date",
+                "date of delivery",
+                "ship date",
+                "title transfer",
+                "maturity date",
+                "b l date",
+                " b l date",
+                "title date",
+                "req ship date",
+                "b l date ",
+                "movement date",
+                "supply date",
+                "delivered on",
+                "delivered on ",
+                "job completion date",
+                "delivery note no/date"],
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "topology",
+            "values_file": [],
+            "use_k2k" : true, 
+            "use_k2k_only":false,
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "K2K": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_KEYALIASES" : {},
+                "USING_SPV" : {"single_line_extraction":
+                    {"spv_tag" : ["DATE"],"tag_threshold":0}
+                }
+            },
+            "cand_selector_stgy": {
+                "INV_DATE_SELECTOR" : {
+                    "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                }
+            },
+            "cand_rejector_stgy":{}
+        }
+    
+
+    }
+
+    
+}

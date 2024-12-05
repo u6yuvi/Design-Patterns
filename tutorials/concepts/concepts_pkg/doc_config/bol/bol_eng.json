@@ -1,0 +1,576 @@
+{
+    "fields_to_extract":
+    {
+
+        "shipper": {
+
+            "keyword_search" :["shipped in apparent good order and condition by", "shipped clean onboard by",
+                "goods consigned from", "shipper/exporter", "shipper", "expéditeur",
+                "exportador", "producer", "consignor's", "consignor", "exporters", "exporter", 
+                "exporter's", "expedidor", "exporer", "company name", "signature","received in apparent good order and condition from"],
+                "reject_list" :{},
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["organization.json"],
+                "diagonal_flag" : false,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {}
+                },
+                "cand_selector_stgy": {
+                    "K2V" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["ORG","LOC"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["DATE","VESSEL", "COMMODITY", "UNIT", "NEGOTIABLE",
+                                "NON-NEGOTIABLE", "QUANTITY_TYPE", "CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "org_rejection",
+                        "threshold" : 95
+                    }
+        
+                }
+            },
+            "negotiable/non-negotiable":
+            {
+                "keyword_search" : [],
+                "reject_list" :{},
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "topology",
+                "values_file": [""],
+                "diagonal_flag" : true,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "K2K": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_SPV" : {"single_line_extraction":
+                        {"spv_tag" : ["NEGOTIABLE","NON-NEGOTIABLE"],"tag_threshold":0}
+                    }
+                },
+                "cand_selector_stgy": {
+                    "passthrough" : {
+                        "cand_generator_stgy" :[ "CAND_GEN_SPV"]
+                    }
+                },
+                "cand_rejector_stgy": {}
+            },
+        "load_port": {
+
+            "keyword_search" :["load port/facility","port of loading", "portofloading", "port ofloading", "loading port",
+                "loadingport", "load port", "loadport", "loading terminal", "loading", "load terminal","product loaded at","port of","laying at","port of roadino","and bound for","lying at","port","location","at the port of","at the portof"],
+                "reject_list" :
+                {
+                    "reject_pre":["eta","destination","basis","delivered"],
+                    "reject_post" : ["eta", "date", "arrival", "day", "good"]
+                },
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["country.json", "ports.json"],
+                "diagonal_flag" : false,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {}
+                },
+                "cand_selector_stgy": {
+                    "K2V" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["LOC","ORG"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["DATE","VESSEL","COMMODITY","UNIT","NEGOTIABLE",
+                                "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "loc_rejection",
+                        "threshold" : 95
+                    }
+        
+                }
+            },
+        "place_of_issue": {
+
+            "keyword_search" : ["place and date of issue","issued in", "place of issue", "date of issue", "date issue", "dated", "date at", "loaded and dated in"],
+                "reject_list" :{},
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["country.json", "ports.json"],
+                "diagonal_flag" : false,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {}
+                },
+                "cand_selector_stgy": {
+                    "K2V" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["LOC","DATE"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" :  ["ORG","QUANTITY_TYPE","COMMODITY","UNIT","NEGOTIABLE",
+                                "NON-NEGOTIABLE","VESSEL","CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "loc_rejection",
+                        "threshold" : 95
+                    }
+        
+                }
+            },
+        "discharge_port": {
+
+            "keyword_search" : ["port of discharge", "discharge port", "discharging port", "disport",
+                "part of discharge", "fort of discharge", "discharge", "discharging","deliverd at the port of","order and condition at the port of", 
+                "disport", "destination","order and conditions at the","to be delivered at"],
+                "reject_list" :
+                {
+                    "reject_post" : ["eta", "date", "day", "will"]
+                },
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["country.json", "ports.json"],
+                "diagonal_flag" : false,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {}
+                },
+                "cand_selector_stgy": {
+                    "K2V" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["LOC","ORG"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["DATE","VESSEL","COMMODITY","UNIT","NEGOTIABLE",
+                                "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "loc_rejection",
+                        "threshold" : 95
+                    }
+        
+                }
+            },
+        "vessel": {
+
+            "keyword_search" : ["vessel/voyage number","steam/motorship/tanker", "name of vessel",
+                "vessel name", "ocean vessel", "board the vessel", "vessel", "vesset", "vesse!",
+                "mode of transport", "means of transport", "carrier", "motorship",
+                "steamship", "tanker", "board","onboard","m/s","tank ship","m/t","exporting carrier","s/s"],
+                "reject_list" :
+                {
+                    "reject_post" : ["number", "charter party", "clean"]
+                },                
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["vessel.json", "barge_name.json"],
+                "diagonal_flag" : false,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {},
+                    "USING_SPV" : {"single_line_extraction":
+                        {"spv_tag" : ["VESSEL"],"tag_threshold":0}
+                    }
+                },
+                "cand_selector_stgy": {
+                    "K2V_REF" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES","CAND_GEN_SPV"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["VESSEL"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["DATE","LOC","COMMODITY","UNIT","NEGOTIABLE",
+                                "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "loc_rejection",
+                        "threshold" : 95
+                    }
+        
+                }
+            },
+        
+         "date_of_issue":
+        {
+            "keyword_search" : ["date of issue", "issue date", "loading date","place and date of issue",
+                "loading completed", "dated", "date at"],
+            "reject_list" :
+            {
+                "reject_pre" : ["bl", "b/l", "invoice", "charter party",
+                    "international convention", "unification"]
+            },            
+            "number_of_lines_to_extract" : 1,
+            "selection_type": "concept",
+            "values_file": [],
+            "diagonal_flag" : true,
+            "extraction_stgy" : {
+                "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+            "key_extraction_stgy" : {
+                "Heuristic": {}
+            },
+            "cand_generator_stgy" : {
+                "USING_DATE":{},
+                "USING_DATE_BOL":{}
+            },
+            "cand_selector_stgy": {
+                "BOL_DATE" : {
+                    "cand_generator_stgy" :["CAND_DATE_ISSUE","CAND_DATE_OF_ISSUE_KEYWORD_THEN_VALUE"]
+                }
+            },
+            "cand_rejector_stgy": {
+                "ANA": {
+                    "accept": {
+                        "tags": ["O"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : [],
+                        "threshold" : 100
+                    } 
+                },
+                "SPV": {
+                    "accept" : {
+                        "tags" : ["DATE"],
+                        "threshold" : 0
+                    },
+                    "reject" : {
+                        "tags" : ["ORG","UNIT","NEGOTIABLE",
+                        "NON-NEGOTIABLE","QUANTITY_TYPE","CARDINAL","ORG"],
+                        "threshold" : 70
+                    }
+                },
+                "VALUE" : {
+                    "filename" : "loc_rejection",
+                    "threshold" : 95
+                }
+    
+            }
+    
+        },
+        "consignee": {
+
+            "keyword_search" : ["customer","deliver to", "goods consigned to", "consignea",
+                "consignee", "consignee's", "importer", "destinatario", "consigned to",
+                "importador", "consigne", "sold to", "buyer","to the order of","unto"],
+                "reject_list" :{},
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["legal_entity.json"],
+                "diagonal_flag" : false,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {}
+                },
+                "cand_selector_stgy": {
+                    "K2V" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["LOC","ORG"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" :  ["DATE","QUANTITY_TYPE","COMMODITY","UNIT","NEGOTIABLE",
+                                "NON-NEGOTIABLE","VESSEL","CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "org_rejection",
+                        "threshold" : 95
+                    }
+        
+                }
+            },
+          "quantity": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "reject_list" :{},
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["CARDINAL"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+         "unit_of_measurement": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "reject_list" :{},
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["UNIT"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+        "quantity_type": 
+        {
+           "keyword_search" : ["signed for","for & on behalf of","for and on behalf of","for","from","the undersigned Independent","surveyor"],
+           "reject_list" :{},
+           "number_of_lines_to_extract" : 1,
+           "no_of_values_to_return" : 1,
+           "selection_type": "topology",
+           "values_file": ["organization.json"],
+           "diagonal_flag": false,
+           "extraction_stgy" : {
+            "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+            },
+
+            "key_extraction_stgy" : {
+                "K2K": {}
+                },
+
+            "cand_generator_stgy" : {
+                "USING_SPV_QTY" : {"spv_tag":["QUANTITY_TYPE"]}
+                },
+            "cand_selector_stgy": {
+                "passthrough" : {
+                    "cand_generator_stgy" :[ "CAND_GEN_QTY_SPV"]}
+                },
+            "cand_rejector_stgy": {}
+
+        },
+        "commodity": {
+
+            "keyword_search" : ["description of goods", "description of good",
+                "commodity", "description", "product","grade","merchandise","quantities said to be "],
+                "reject_list" :{},
+                "number_of_lines_to_extract" : 1,
+                "selection_type": "concept",
+                "values_file": ["commodity.json"] ,
+                "diagonal_flag" : true,
+                "extraction_stgy" : {
+                    "KEYVALUEPAIR_EXTRACTION" : "VALUES_USING_KEYALIASES"
+                },
+                "key_extraction_stgy" : {
+                    "Heuristic": {}
+                },
+                "cand_generator_stgy" : {
+                    "USING_KEYALIASES" : {}
+                },
+                "cand_selector_stgy": {
+                    "K2V" : {
+                        "cand_generator_stgy" :["CAND_GEN_USING_KEYALIASES"]
+                    }
+                },
+                "cand_rejector_stgy": {
+                    "ANA": {
+                        "accept": {
+                            "tags": ["O"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["Anchor"],
+                            "threshold" : 100
+                        } 
+                    },
+                    "SPV": {
+                        "accept" : {
+                            "tags" :["COMMODITY"],
+                            "threshold" : 0
+                        },
+                        "reject" : {
+                            "tags" : ["DATE","LOC","ORG","QUANTITY_TYPE","UNIT","NEGOTIABLE",
+                                "NON-NEGOTIABLE","VESSEL","CARDINAL"]
+                            ,
+                            "threshold" : 70
+                        }
+                    },
+                    "VALUE" : {
+                        "filename" : "loc_rejection",
+                        "threshold" : 95
+                    }
+                }
+        
+
+            
+        }
+                
+
+
+
+
+
+                
+
+
+
+            
+
+
+    }
+}

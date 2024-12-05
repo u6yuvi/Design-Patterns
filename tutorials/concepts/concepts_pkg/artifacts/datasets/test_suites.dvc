@@ -1,0 +1,5 @@
+outs:
+- md5: 66a97a99dc051cb44c29ab50980b3bd2.dir
+  size: 143365
+  nfiles: 5
+  path: test_suites
